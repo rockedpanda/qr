@@ -1,5 +1,5 @@
 {
-    "name": "httpprint",
+    "name": "qr",
     "script": "node",
     "args": "bin/www",
     "env": {
