@@ -1,0 +1,17 @@
+{
+    "name": "httpprint",
+    "script": "node",
+    "args": "bin/www",
+    "env": {
+        "PROFILE": "develop"
+    },
+    "env_develop": {
+        "PROFILE": "develop"
+    },
+    "env_test": {
+        "PROFILE": "test"
+    },
+    "env_product": {
+        "PROFILE": "product"
+    }
+}
