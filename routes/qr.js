@@ -39,5 +39,14 @@ router.put('/decode', function(req, res, next){
         });
     })
 });
+router.put('/dec', function(req, res, next){
+    streamToBuffer(req, function(buf){
+        qrcodeReader.read(buf).then(x=>{
+        res.send({error_code:0,text:[x], data:x ,msg:''});
+        }).catch(err=>{
+        res.send({error_code:1,data:null,msg:'识别出错'});
+        });
+    })
+});
 
 module.exports = router;
