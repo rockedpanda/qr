@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var qr = require('./routes/qr');
 
 var app = express();
+//var fs = require('fs');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,6 +22,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/qr', qr);
+/* app.use('/api/ocr',function(req, res,next){
+	//console.log(req);
+	var t = Date.now()+'.png';
+	console.log(t,'<<<<<<< t');
+	req.pipe(fs.createWriteStream(t));
+	res.send({error_code:0,'msg':'识别成功','text':['1111','2222','33333'], 'timeTake':'1111'});
+}); */
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

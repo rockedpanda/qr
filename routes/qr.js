@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var qr = require('qr-image');
 var qrcodeReader = require('../lib/qrcode.js');
-
+var ocr = require('../lib/ocr.js');
 
 function streamToBuffer(stream, cb){
     var bufs = [];
@@ -41,12 +41,34 @@ router.put('/decode', function(req, res, next){
 });
 router.put('/dec', function(req, res, next){
     streamToBuffer(req, function(buf){
-        qrcodeReader.read(buf).then(x=>{
+        Promise.race([
+            qrcodeReader.read(buf),
+            ocr.decodeBySvr(buf)
+        ]).then(x=>{
+            res.send({error_code:0,text:x, data:x ,msg:''});
+        }).catch(err=>{
+            res.send({error_code:1,text:'', data:null,msg:'识别出错'});
+        });
+        /* qrcodeReader.read(buf).then(x=>{
+            console.log(x);
+            // if(!x.trim()){
+            //     return res.send({error_code:0,text:['未识别到二维码'],msg:''});
+            // }
         res.send({error_code:0,text:[x], data:x ,msg:''});
         }).catch(err=>{
-        res.send({error_code:1,data:null,msg:'识别出错'});
-        });
-    })
+            console.log('err', err);
+            // ocr.decodeBuf(buf).then(x=>{
+            ocr.decodeBySvr(buf).then(x=>{
+                res.send({error_code:0,text:x, data:x ,msg:''});
+            }).catch(err=>{
+                res.send({error_code:1,data:null,msg:'识别出错'});
+            });
+        }); */
+    });
+
+    
 });
+
+
 
 module.exports = router;
