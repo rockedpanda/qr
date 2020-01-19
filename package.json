@@ -13,10 +13,12 @@
     "http-errors": "~1.6.3",
     "jimp": "^0.8.5",
     "morgan": "~1.9.1",
+    "node-fetch": "^2.6.0",
     "qr-image": "^3.2.0",
     "qrcode-reader": "^1.0.4"
   },
   "config": {
-    "port": "3003"
+    "port": "3003",
+    "ocrURL": "http://192.168.3.113:5902/api/ocr"
   }
 }

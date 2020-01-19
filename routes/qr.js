@@ -13,6 +13,22 @@ function streamToBuffer(stream, cb){
     });
 }
 
+
+router.use('/*', function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "*");
+    res.header("Access-Control-Allow-Methods", "POST,GET,OPTIONS,PUT,DELETE");
+    res.header("Access-Control-Allow-Credentials", "true");
+
+    if (req.method == "OPTIONS") {
+        res.sendStatus(204);
+        return res.send('OK');
+    }
+    else {
+        next();
+    }
+});
+
 /**
  * 根据文本生成二维码图片(PNG格式)
  * 仅支持GET
@@ -59,7 +75,7 @@ router.put('/dec', function(req, res, next){
             console.log('err', err);
             // ocr.decodeBuf(buf).then(x=>{
             ocr.decodeBySvr(buf).then(x=>{
-                res.send({error_code:0,text:x, data:x ,msg:''});
+                res.send(x);
             }).catch(err=>{
                 res.send({error_code:1,data:null,msg:'识别出错'});
             });
