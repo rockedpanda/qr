@@ -41,20 +41,20 @@ router.put('/decode', function(req, res, next){
 });
 router.put('/dec', function(req, res, next){
     streamToBuffer(req, function(buf){
-        Promise.race([
+        /* Promise.race([
             qrcodeReader.read(buf),
             ocr.decodeBySvr(buf)
         ]).then(x=>{
             res.send({error_code:0,text:x, data:x ,msg:''});
         }).catch(err=>{
             res.send({error_code:1,text:'', data:null,msg:'识别出错'});
-        });
-        /* qrcodeReader.read(buf).then(x=>{
+        }); */
+        qrcodeReader.read(buf).then(x=>{
             console.log(x);
             // if(!x.trim()){
             //     return res.send({error_code:0,text:['未识别到二维码'],msg:''});
             // }
-        res.send({error_code:0,text:[x], data:x ,msg:''});
+            res.send({error_code:0,text:[x], data:x ,msg:''});
         }).catch(err=>{
             console.log('err', err);
             // ocr.decodeBuf(buf).then(x=>{
@@ -63,7 +63,7 @@ router.put('/dec', function(req, res, next){
             }).catch(err=>{
                 res.send({error_code:1,data:null,msg:'识别出错'});
             });
-        }); */
+        });
     });
 
     
